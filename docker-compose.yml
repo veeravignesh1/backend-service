@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  api:
+    build: app
+    restart: always
+    expose:
+      - 8000
+    networks:
+      - proxy-api-network
+    deploy:
+      mode: replicated
+      replicas: 5
+  proxy:
+    build: proxy
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - api
+    networks:
+      - proxy-api-network
+
+networks:
+  proxy-api-network:
