@@ -10,7 +10,16 @@ services:
       - proxy-api-network
     deploy:
       mode: replicated
-      replicas: 5
+      replicas: 1
+    # Through environment is working
+    # environment:
+    #   - SERVICE_URL= http://service:8000/
+    links:
+      - service
+    depends_on:
+      - service
+    ports:
+      - 81:8000
   proxy:
     build: proxy
     restart: always
@@ -20,6 +29,15 @@ services:
       - api
     networks:
       - proxy-api-network
+  service:
+    build: service
+    restart: always
+    expose:
+      - 8000
+    networks:
+      - proxy-api-network
+    
+
 
 networks:
   proxy-api-network:
