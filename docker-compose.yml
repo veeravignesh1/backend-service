@@ -8,6 +8,9 @@ services:
       - 8000
     networks:
       - proxy-api-network
+    deploy:
+      mode: replicated
+      replicas: 5
   proxy:
     build: proxy
     restart: always
